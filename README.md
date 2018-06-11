@@ -58,6 +58,30 @@ end
 - app.rb
 - views/
   - .erb
+  - layout.erb
+
+##### - layout
+
+```erb
+<html>
+    <head>
+    </head>
+    <body>
+        <%= yield %>
+    </body>
+</html>
+```
+
+```ruby
+def hello
+    puts "hello"
+    yield
+    puts "bye"
+end
+#{} : block /코드 덩어리
+hello{puts "takdk"}
+# => hello takdk bye
+```
 
 
 ##### - erb에서 루비코드 활용하기
