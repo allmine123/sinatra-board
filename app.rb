@@ -44,7 +44,8 @@ end
 
 #게시글을 모두 보여주는 곳
 get '/posts' do
-    @posts = Post.all
+    @posts = Post.all.reverse
+    @posts = Post.all(order: [:id.desc])
     erb :'posts/posts'
 end
 
@@ -58,4 +59,12 @@ get '/posts/create' do
     @body = params[:body]
     Post.create(title: @title, body: @body)
    erb :'posts/create' 
+end
+
+#CRUD - Read
+#variable routing을 통해 특정한 게시글을 가져온다.
+get '/posts/:id' do
+    @id = params[:id]
+    @post = Post.get(@id)
+    erb :'posts/show'
 end

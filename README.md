@@ -10,7 +10,7 @@
 
 
 
-##### - 시작페이지 만들기
+##### - 시작페이지 만들기(routing 설정 및 view 설정)
 
 ```ruby
 #app.rb
@@ -26,6 +26,31 @@ get '/lunch' do #'/lunch'경로로 들어왔을 때
 end
 ```
 
+##### - params
+
+1. variable routing
+
+```ruby
+#app.rb
+get '/hello/:name' do
+	@name = params[:name]
+    erb :name
+end
+```
+
+2. `form` tag를 통해서 받는 법
+
+```html
+<form action="/posts/create">
+    제목: <input name= "title"/>
+</form>
+```
+
+```ruby
+get '/posts/create' do
+    @title = params[:title] # params의 값은 input의 name값과 같아야함.
+end
+```
 
 
 ##### - 폴더 구조
@@ -49,7 +74,6 @@ end
 %= @lunch.sample %>를 먹자요!!
 <a href="/">홈으로 가기</a>
 ```
-
 
 ##### - ORM : Object Relational-Mapper
 
@@ -87,7 +111,7 @@ end
 # Call this when you've defined all your models
 DataMapper.finalize
 
-# automatically create the post table
+# automatically create the post table (Relational)
 Post.auto_upgrade!
 ```
 
@@ -139,4 +163,29 @@ p.save
 
 ```ruby
 Post.get(1).destroy
+```
+
+
+##### - CRUD만들기
+
+Create : action이 두 개 필요
+
+```ruby
+# 사용자에게 입력받는 창
+get '/posts/new' do
+end
+# 실제로 db에 저장하는 곳
+get '/posts/create' do
+    Post.create(title: params[:title], body: params[:body])
+end
+```
+
+Read : variable routing
+
+```ruby
+#app.rb
+get '/posts/:id' do
+    @post = params[:id]
+Post.get(params[:id])
+end
 ```
