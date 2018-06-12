@@ -68,3 +68,24 @@ get '/posts/:id' do
     @post = Post.get(@id)
     erb :'posts/show'
 end
+
+#CRUD - Delete
+get '/posts/destroy/:id' do
+    @post = Post.get(params[:id]).destroy
+    #erb :'posts/destroy'
+    redirect '/posts'
+end
+
+#CRUD - Update
+get '/posts/edit/:id' do
+    @id = params[:id]
+    @post = Post.get(@id)
+    erb :'posts/edit'
+end
+
+get '/posts/update/:id' do
+    @id = params[:id]
+    Post.get(@id).update(title: params[:title], body: params[:body])
+    @post = Post.get(@id)
+    redirect '/posts/'+@id
+end
